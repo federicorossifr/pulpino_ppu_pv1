@@ -23,7 +23,7 @@
   Modified 14 June 2016 by Mahmoud Elmohr       (Ported to RISC-V PULPino)
 
 */
-
+#ifdef  __ARDUINO__
 #define ARDUINO_MAIN
 #include "wiring_private.h"
 #include "pins_arduino.h"
@@ -104,3 +104,4 @@ int digitalRead(uint8_t pin)
 	if (*PADIN & bit) return HIGH;
 	return LOW;
 }
+#endif

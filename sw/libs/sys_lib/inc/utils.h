@@ -33,7 +33,7 @@ static inline int get_core_num()
   return 0;
 }
 
-#ifdef __riscv__
+#ifdef ___riscv__
 /**
  * @brief Write to CSR.
  * @param CSR register to write.
@@ -78,7 +78,7 @@ static inline void mtspr(unsigned long spr, unsigned long value)
 static inline unsigned long mfspr(unsigned long spr)
 {
   unsigned long value;
-  asm volatile ("l.mfspr\t\t%0,%1,0" : "=r" (value) : "r" (spr));
+  //asm volatile ("l.mfspr\t\t%0,%1,0" : "=r" (value) : "r" (spr));
   return value;
 }
 

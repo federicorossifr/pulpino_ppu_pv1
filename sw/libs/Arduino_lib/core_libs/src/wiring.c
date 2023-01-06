@@ -21,7 +21,7 @@
 
    Modified 14 June 2016 by Mahmoud Elmohr       (Ported to RISC-V PULPino)
 */
-
+#ifdef __ARDUINO__
 #include "wiring_private.h"
 
 // the prescaler is set so that timerA ticks every 1 clock cycles, and the
@@ -144,3 +144,4 @@ void init()
 
 
 }
+#endif

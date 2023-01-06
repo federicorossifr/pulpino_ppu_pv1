@@ -13,6 +13,6 @@
 
 int main()
 {
-  printf("Hello World!!!!!\n");
+  printf("Hello World from Posits!!!!!\n");
   return 0;
 }

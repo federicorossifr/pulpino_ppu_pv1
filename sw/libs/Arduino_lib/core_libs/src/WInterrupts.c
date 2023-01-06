@@ -24,7 +24,7 @@
   Modified 1 August 2010 by Mark Sproul
   Modified 25 June 2016 by Mahmoud Elmohr       (Ported to RISC-V PULPino)
 */
-
+#ifdef __ARDUINO__
 #include <stdio.h>
 #include "wiring_private.h"
 #include "pins_arduino.h"
@@ -192,3 +192,4 @@ void ISR_GPIO (void) {
         ICP |= (1<<25);         //clear interrupt pending for GPIO
 }
 
+#endif

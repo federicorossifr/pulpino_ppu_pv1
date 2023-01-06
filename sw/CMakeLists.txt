@@ -42,16 +42,16 @@ if(GCC_MARCH_NOT_SET)
       endif()
    else()
       if(${ZERO_RV32M})
-        set(GCC_MARCH "RV32IM")
+        set(GCC_MARCH "rv32IM")
       else()
-        set(GCC_MARCH "RV32I")
+        set(GCC_MARCH "rv32I")
       endif()
    endif()
 endif()
 
 
 message(STATUS "GCC_MARCH= ${GCC_MARCH}")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32 -march=${GCC_MARCH} -Wa,-march=${GCC_MARCH}")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -march=${GCC_MARCH} -Wa,-march=${GCC_MARCH}")
 set(CMAKE_OBJDUMP_FLAGS -Mmarch=${GCC_MARCH} -d)
 
 if(${GCC_MARCH} MATCHES "IMFDXpulpv2")
@@ -102,10 +102,6 @@ set(VSIM "vsim" CACHE FILEPATH "Path to the vsim executable")
 
  include_directories(libs/sys_lib/inc)
 
- if(${ARDUINO_LIB})
-  include_directories(libs/Arduino_lib/core_libs/inc)
-  include_directories(libs/Arduino_lib/separate_libs/inc)
- endif()
 
  if(${RISCY_RV32F})
    include_directories(libs/math_fns_lib/inc)
@@ -148,6 +144,11 @@ add_custom_target(vcompile.core.zero
   WORKING_DIRECTORY ${PULP_MODELSIM_DIRECTORY}
   ${USES_TERMINAL})
 
+add_custom_target(vcompile.core.ibex_ppu
+  COMMAND tcsh ./vcompile/vcompile_ibex_ppu.csh
+  WORKING_DIRECTORY ${PULP_MODELSIM_DIRECTORY}
+  ${USES_TERMINAL})  
+
 ################################################################################
 
 add_subdirectory(libs/string_lib)
@@ -157,9 +158,6 @@ if(${RISCY_RV32F})
  add_subdirectory(libs/math_fns_lib)
 endif()
 
-if(${ARDUINO_LIB})
- add_subdirectory(libs/Arduino_lib)
-endif()
 
 add_subdirectory(libs/bench_lib)
 
