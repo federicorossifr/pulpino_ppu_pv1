@@ -4,11 +4,11 @@
 
 # Pulpino IBEX PPU
 
-Forked version of Pulpino to work with ibex_ppu_pv1
+Forked version of Pulpino to work with [ibex_ppu_pv1](https://github.com/federicorossifr/ibex_ppu_pv1)
 Prerequisites:
 - Questa simulator from Intel (or Modelsim)
 - The riscv-gnu-toolchain from pulp-platform (tested with 2.5.0) https://github.com/pulp-platform/riscv-gnu-toolchain/releases/tag/v2.5.0
-- The ibex_ppu_pv1 RISC-V core with a valid ppu_top.v file for the PPU
+- The [ibex_ppu_pv1](https://github.com/federicorossifr/ibex_ppu_pv1) RISC-V core with a valid ppu_top.v file for the PPU
 
 
 
