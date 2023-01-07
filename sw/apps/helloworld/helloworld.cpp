@@ -72,14 +72,15 @@ int main()
     int d = 0;
     d = testpadd(a,b);
     d = testpadd(a,d);
+    d = testpadd(a,d);
+    d = testpadd(a,d);
 
-
-
+ 
   __asm__ __volatile__ ("nop");
   __asm__ __volatile__ ("nop");
 
  // d = testpadd(a,d);
  // d = testpadd(a,d);*/
-  printf("%d + %d = %d\n",a,b,d);
+  printf("%x + %x = %x\n",a,b,d);
   return 0;
 }

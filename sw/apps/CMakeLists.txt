@@ -193,6 +193,7 @@ endmacro()
 ################################################################################
 
 add_subdirectory(helloworld)
+add_subdirectory(posit_tests)
 
 if(${ARDUINO_LIB})
   add_subdirectory(Arduino_tests)
