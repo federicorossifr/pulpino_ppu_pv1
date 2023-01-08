@@ -11,6 +11,8 @@ gui:
 clean:
 	rm -rf ${PROJECT}.xpr
 	rm -rf ${PROJECT}.data
+	rm -rf ${PROJECT}.ip_user_files
+	rm -rf ${PROJECT}.gen
 	rm -rf ${PROJECT}.runs
 	rm -rf ${PROJECT}.srcs
 	rm -rf ${PROJECT}.sim

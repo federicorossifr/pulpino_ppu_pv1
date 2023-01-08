@@ -1,1 +1,1 @@
-add_application(posit_tests positcpp.cpp)
+add_application(posit_tests positcpp.c)
