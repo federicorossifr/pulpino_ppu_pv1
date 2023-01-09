@@ -1,6 +1,7 @@
 #include "miniblas.h"
 
-const unsigned int N = 2;
+const unsigned int N = 8;
+
 
 
 int main()
@@ -12,22 +13,18 @@ int main()
   posit_t B[N*N];
   posit_t C[N*N];
 
-  // Convert a float to a posit
-  int f = 0x3c000000;
-  int p = 0x80;
-  int f_back = pcvt_f(p);
-  posit_t p_back = fcvt_p(f);
-  printf("float(0x%x) => posit (0x%x)\n",f,p_back);
-  printf("posit(0x%x) => float(0x%x)\n",p,f_back);
-
-  // Initialize matrices A and B with random values in 0,0xFF but discards 0x80
+  int ff[] = {0x40000000, 0x3fc00000};
+  //posit_t pp = fcvt_p(ff);
+  //printf("pp = %x\n", pp);
+  int ffa = fcvt_p(0);
+  printf("ffa = %x\n", ffa);
   for (unsigned int i=0; i<N; i++) {
     for (unsigned int j=0; j<N; j++) {
-      A[i*N+j] = (posit_t)rand() & 0x7F;
-      B[i*N+j] = (posit_t)rand() & 0x7F;
+      A[i*N+j] = pdiv((posit_t)rand(),fcvt_p(0x40000000));
+      B[i*N+j] = fcvt_p(ff[rand()%2]);
     }
   }
-/*
+
   // Compute A,B dot product
   printf("Testing dot...\n");
   dot(&A[0],&B[0],N*N);
@@ -42,6 +39,5 @@ int main()
   // printf("Testing convolution...\n");
   // conv3x3(&A[0],&B[0],&C[0],N);
   // printf("Done\n");
-*/
   return 0;
 }
