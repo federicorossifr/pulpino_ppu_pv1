@@ -59,10 +59,12 @@ class PositInstruction:
         self.op_b = operand_b
         self.res = result
 
-    def verify_binary_op(self):
-        p_a = from_bits(int(self.op_a,16)&0xFF,8,0)
-        p_b = from_bits(int(self.op_b,16)&0xFF,8,0)
-        p_r = from_bits(int(self.res,16)&0xFF,8,0)
+    def verify_binary_op(self,n,es):
+        # Gen mask depending on n
+        mask = (1 << n)-1;
+        p_a = from_bits(int(self.op_a,16)&mask,n,es)
+        p_b = from_bits(int(self.op_b,16)&mask,n,es)
+        p_r = from_bits(int(self.res,16)&mask,n,es)
         match self.op:
             case "padd":
                 p_c = p_a+p_b
@@ -83,13 +85,15 @@ class PositInstruction:
         return p_c == p_r
 
 
-    def verify_unary_op(self):
+    def verify_unary_op(self,n,es):
+        # Gen mask depending on n
+        mask = (1 << n)-1;        
         match self.op:
             case "pcvt.f":
-                p_a = from_bits(int(self.op_a,16)&0xFF,8,0).eval()
+                p_a = from_bits(int(self.op_a,16)&mask,n,es).eval()
                 p_c = float_from_bin(int(self.res,16))
             case "fcvt.p":
-                p_c = from_bits(int(self.res,16)&0xFF,8,0).eval()
+                p_c = from_bits(int(self.res,16)&mask,n,es).eval()
                 p_a = float_from_bin(int(self.op_a,16))
             case _:
                 print("[ERROR] Unrecognized op "+self.op)
@@ -104,14 +108,14 @@ class PositInstruction:
 
 
     # ToDo change FF and 8,0 
-    def verify(self):
+    def verify(self,n,es):
         match self.op:
             case "padd" | "pmul" | "pdiv" | "psub":
                 increase_insn_dict(self.op)
-                return self.verify_binary_op()
+                return self.verify_binary_op(n,es)
             case "pcvt.f" | "fcvt.p":
                 increase_insn_dict(self.op)
-                return self.verify_unary_op()
+                return self.verify_unary_op(n,es)
             case _:
                 print("[ERROR] Unrecognized op "+self.op)
                 exit(-1)
@@ -165,21 +169,22 @@ def parse_insns(tracefile):
                 parsed_insns.append(parse_line(line))
     return parsed_insns 
 
-def validate_output(parsed_insns):
+def validate_output(parsed_insns,n,es):
     for ins in parsed_insns:
         #print(ins)
-        ins.verify()
+        ins.verify(n,es)
     
 # Read input file from sys arg
-if len(sys.argv) < 2:
-    print("Usage: "+sys.argv[0]+" [tracer file]")
+if len(sys.argv) < 4:
+    print("Usage: "+sys.argv[0]+" [tracer file]" + " [N]" + " [ES]")
     exit(-1)
 
 
 trace = sys.argv[1];
-
+N = int(sys.argv[2]);
+ES = int(sys.argv[3]);
 insns = parse_insns(trace)
-validate_output(insns)
+validate_output(insns,N,ES)
 print_percent_success()
 
 
