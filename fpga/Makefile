@@ -1,5 +1,6 @@
+XILINX_PART=xcu280-fsvh2892-2L-e
+XILINX_BOARD=xilinx.com:au280:1.1
 all: ips pulpino pulpemu sw
-
 
 
 .PHONY: ips

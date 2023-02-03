@@ -10,7 +10,6 @@
 
 
 #include <stdio.h>
-
 // Example intrinsic OP REG, REG FOR ADD
 int testiadd(long a, long b) {
   register int p1 asm("a1") = a;  // asm ("a0")
@@ -74,6 +73,8 @@ int main()
     d = testpadd(a,d);
     d = testpadd(a,d);
     d = testpadd(a,d);
+    std::vector<int> vec;
+    vec.push_back(d);
 
  
   __asm__ __volatile__ ("nop");

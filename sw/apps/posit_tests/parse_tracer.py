@@ -20,6 +20,24 @@ posit_insns_dict = {
     "psub":0
 }
 
+# Dictionary of cumulative errors of posit instructions compared to float
+posit_insns_error_dict = {
+    "pmul":0,
+    "padd":0,
+    "pcvt.f":0,
+    "fcvt.p":0,
+    "pdiv":0,
+    "psub":0
+}
+
+def add_error(ins, error):
+    posit_insns_error_dict[ins] += error
+
+def print_average_errors():
+    for ins in posit_insns_dict:
+        if posit_insns_dict[ins] != 0:
+            print(ins+": "+str(posit_insns_error_dict[ins]/posit_insns_dict[ins]))
+
 # Dictionary of passed test of posit instructions
 posit_insns_success_dict = {
     "pmul":0,
@@ -68,12 +86,16 @@ class PositInstruction:
         match self.op:
             case "padd":
                 p_c = p_a+p_b
+                p_fl = p_a.eval() + p_b.eval()
             case "pmul":
                 p_c = p_a*p_b
+                p_fl = p_a.eval() * p_b.eval()
             case "pdiv":
                 p_c = p_a/p_b
+                p_fl = p_a.eval() / p_b.eval()
             case "psub":
                 p_c = p_a-p_b
+                p_fl = p_a.eval() - p_b.eval()
             case _:
                 print("[ERROR] Unrecognized op "+self.op)
                 exit(-1)
@@ -82,6 +104,12 @@ class PositInstruction:
             print(self.op,p_c.eval(),p_r.eval(),p_c==p_r)  
         else:      
             increase_insn_test_dict(self.op)
+        if(self.op == "pdiv"):
+            print(p_a.eval(),p_b.eval(),p_c.eval(), p_fl);
+        try:
+            add_error(self.op, abs( (p_c.eval() - p_fl)/p_fl ))
+        except ZeroDivisionError:
+            pass
         return p_c == p_r
 
 
@@ -185,6 +213,6 @@ N = int(sys.argv[2]);
 ES = int(sys.argv[3]);
 insns = parse_insns(trace)
 validate_output(insns,N,ES)
+print_insn_dict()
 print_percent_success()
-
-
+print_average_errors()

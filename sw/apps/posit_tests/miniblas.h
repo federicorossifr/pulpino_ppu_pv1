@@ -33,3 +33,17 @@ void conv3x3(posit_t *a, posit_t *f, posit_t *c, int n) {
     }
   }
 }
+
+void avgpool4x4(posit_t *a, posit_t *c, int n) {
+  for (int i = 0; i < n - 4; i++) {
+    for (int j = 0; j < n - 4; j++) {
+      posit_t sum = 0;
+      for (int k = 0; k < 4; k++) {
+        for (int l = 0; l < 4; l++) {
+          sum = padd(sum, a[(i + k) * n + j + l]);
+        }
+      }
+      c[i * n + j] = pdiv(sum, fcvt_p(0x41800000));
+    }
+  }
+}
