@@ -5,6 +5,26 @@
 #include <math.h>
 
 typedef int posit_t;
+
+typedef struct {
+    int8_t p1;
+    int8_t p2;
+    int8_t p3;
+    int8_t p4;
+} packed_p4;
+
+typedef struct {
+    int16_t p1;
+    int16_t p2;
+} packed_p2;
+
+typedef union {
+    int32_t raw;
+    packed_p4 p4;
+    packed_p2 p2;
+} packed_posit;
+
+
 // Posit addition via asm
 // Format is identical to integer addition
 // We change opcode accordingly
